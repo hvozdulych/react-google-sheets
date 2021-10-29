@@ -19,7 +19,8 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'React Spreadsheet Sync',
+            filename: "index.html", // can be removed since it is default
+            template: "index_template.html"
         }),
     ],
     module: {
