@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     mode: 'development',
@@ -22,6 +23,9 @@ module.exports = {
             filename: "index.html", // can be removed since it is default
             template: "index_template.html"
         }),
+        new MiniCssExtractPlugin({
+            filename: "[name].css"
+        })
     ],
     module: {
         rules: [
@@ -42,27 +46,17 @@ module.exports = {
                 }]
             },
             {
-                test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-                use: [
-                    {
-                        loader: "url-loader",
-                        options: {
-                            limit: 100000
-                        }
-                    },
-                    {
-                        loader: "svg-colorize-loader",
-                        options: {
-                            color1: "#000000",
-                            color2: "#FFFFFF"
-                        }
-                    }
-                ]
+                test: /\.css$/,
+                use: [ MiniCssExtractPlugin.loader, "css-loader" ]
             },
             {
-                test: /\.css$/,
-                use: [ "style-loader", "css-loader" ]
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: "asset/resource"
             },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                type: "asset/resource"
+            }
         ]
     },
     resolve: {
